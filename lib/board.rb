@@ -25,9 +25,8 @@ class Board
 
         child.parent = this_sq.position if child.parent.nil?
         child.distance_from_start = this_sq.distance_from_start + 1
-        if adj == dest
-          return "#{child.distance_from_start} steps here is the path #{get_path(child)}"
-        end
+        return "#{child.distance_from_start} steps here is the path #{get_path(child)}" if adj == dest
+
         queue.push(adj)
       end
     end
