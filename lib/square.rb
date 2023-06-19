@@ -1,11 +1,13 @@
 class Square
   require './knight'
   include Knight
-  attr_accessor :position, :adjacent
+  attr_accessor :position, :adjacent, :distance_from_start, :parent
 
   def initialize(position)
     @position = position
     @adjacent = []
+    @distance_from_start = nil
+    @parent = nil
     possible_moves
   end
 

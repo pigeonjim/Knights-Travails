@@ -4,5 +4,4 @@ include Knight
 
 b = Board.new
 b.build_board
-b.knight_moves([3, 2])
-
+puts b.knight_moves([7,2], [0, 0])

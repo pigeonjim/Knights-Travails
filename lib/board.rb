@@ -13,21 +13,34 @@ class Board
     LENGTH.times { |idx| WIDTH.times { |jdx| @board[idx][jdx] = Square.new([idx, jdx]) } }
   end
 
-  def knight_moves(dest, start = @root.position, stack = [start], path = {})
-    return path if stack.empty?
+  def knight_moves(start = @root.position, dest)
+    queue = [start]
+    knight_root = node_from_address(start)
+    knight_root.distance_from_start = 0
+    until queue.empty?
+      this_sq = node_from_address(queue.shift)
+      this_sq.adjacent.each do |adj|
+        child = node_from_address(adj)
+        next unless child.distance_from_start.nil?
 
-    path[co_ord_to_sym(stack.last)] = 'yes'
-    p path
-    this_add = stack.last
-    return path if this_add == dest
-
-    current_vertex = node_from_address(this_add)
-    current_vertex.adjacent.each do |adj_addr|
-      next if path.include?(co_ord_to_sym(adj_addr))
-
-      stack.push(adj_addr)
-      knight_moves(dest, adj_addr, stack, path)
+        child.parent = this_sq.position if child.parent.nil?
+        child.distance_from_start = this_sq.distance_from_start + 1
+        if adj == dest
+          return "#{child.distance_from_start} steps here is the path #{get_path(child)}"
+        end
+        queue.push(adj)
+      end
     end
+  end
+
+  def get_path(node)
+    path = []
+    until node.parent.nil?
+      path.unshift(node.position)
+      node = node_from_address(node.parent)
+    end
+    path.unshift(node.position)
+    return path
   end
 
   def node_from_address(co_ord)

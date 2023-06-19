@@ -1,5 +1,6 @@
 module Knight
   attr_reader :method_ary
+  
   LENGTH = 8
   WIDTH = 8
   @arry_width = (WIDTH - 1)
